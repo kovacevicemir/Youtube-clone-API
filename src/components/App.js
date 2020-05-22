@@ -11,6 +11,10 @@ class App extends React.Component{
         SelectedVideo : null
     }
 
+    componentDidMount(){
+        this.submitHandler('python');
+    }
+
     OnSelectHandler = (video) => {
         console.log(video)
         this.setState({SelectedVideo:video})
@@ -26,16 +30,23 @@ class App extends React.Component{
             }
         })
         
-        this.setState({videos:response.data.items})
-        console.log(response.data.items)
+        this.setState({videos:response.data.items, SelectedVideo:response.data.items[0]})
     }
 
     render(){
         return(
             <div className="ui container">
                 <SearchBar submitHandler = {this.submitHandler}/>
-                <VideoDetail video = {this.state.SelectedVideo} />
-                <VideoList videos = {this.state.videos} OnSelectHandler = {this.OnSelectHandler} />
+                <div className="ui grid">
+                    <div className="ui row">
+                        <div className="eleven wide column">
+                            <VideoDetail video = {this.state.SelectedVideo} />
+                        </div>
+                        <div className="five wide column">
+                            <VideoList videos = {this.state.videos} OnSelectHandler = {this.OnSelectHandler} />
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
